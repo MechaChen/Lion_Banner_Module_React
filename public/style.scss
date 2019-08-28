@@ -1,0 +1,51 @@
+body {
+  line-height: 1.5;
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+.banner {
+  width: 1200px;
+  height: 300px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  .btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 2px 2px 2px 8px;
+    font-size: 13px;
+    color: #a3a3a3;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 3px 0 0 0;
+    user-select: none;
+    cursor: pointer;
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin: 2px;
+      border-style: solid;
+      border-width: 0 3px 3px;
+      border-color: transparent transparent #a3a3a3;
+    }
+    &:hover {
+      color: #fff;
+    }
+    &:hover::after {
+      border-color: transparent transparent #fff;
+    }
+  }
+  &.closed,
+  &.closing {
+    height: 80px;
+    .btn {
+      &::after {
+        border-width: 3px 3px 0;
+        border-color: #fff transparent transparent;
+      }
+    }
+  }
+}
