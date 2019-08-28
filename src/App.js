@@ -3,44 +3,57 @@ import "./App.css";
 
 class App extends React.Component {
   state = {
-    closeHeight: "translateY(-300px)",
-    openHeight: "translateY(0px)",
     transSecond: "2s",
-    openAtStart: true,
+    openAtStart: false,
     autoToggle: true,
     button: {
       closeText: "收合",
       openText: "展開",
       class: "btn"
     },
+    btnText: "收合",
     class: {
       closed: "closed",
       closing: "closing",
       opened: "opened",
       opening: "opening"
     },
+    currentClass: "closed",
+    isClose: false,
     transition: true,
     whenTransition: function() {
       console.log("whenTransition");
     }
   };
 
-  bannerAnima = function() {
-    const {}
-    const btnOpts = this.options.button;
-    const btn = this.$ele.find(`.${btnOpts.class}`);
-    const isTransition = this.options.transition;
-    const classStates = this.options.class;
-    const whenTransition = this.options.whenTransition;
+  autoToggle = () => {
+    const { autoToggle } = this.state;
+    const { bannerAnima } = this;
+    if (autoToggle) setInterval(bannerAnima, autoToggle || 3000);
+  };
 
-    if (isTransition) this.$ele.css("transition", transSecond);
+  bannerAnima = () => {
+    const {
+      button: btnOpts,
+      transition: isTransition,
+      class: classStates,
+      currentClass,
+      whenTransition
+    } = this.state;
+    let { btnText } = this.state;
+    const { controlClass, changeImgHeight } = this;
 
     // 判斷 class 是否在已完成的狀態，ex : opened、closed
-    if (/opened|closed/.test(this.$ele.attr("class"))) {
-      this.$ele.toggleClass(classStates.closed);
+    if (/opened|closed/.test(currentClass)) {
+      if (/opened/.test(currentClass)) {
+        this.setState({ currentClass: classStates.closed });
+      } else {
+        this.setState({ currentClass: classStates.opened });
+      }
       // 利用按鈕文字決定是否展開或收合
-      if (btn.text() == btnOpts.closeText) {
-        btn.text(btnOpts.openText);
+      if (btnText === btnOpts.closeText) {
+        this.setState({ btnText: btnOpts.openText });
+        // btnText = btnOpts.openText;
         // 檢查是否有 transition
         if (isTransition) {
           // 更改 class 名稱為 closing
@@ -51,69 +64,85 @@ class App extends React.Component {
           // 1. 改圖高度
           // 2.class 名稱改 closed
           // 3.清除計時器
-          setTimeout(
-            function() {
-              changeImgHeight.call(this, closeHeight);
-              controlClass.call(this, classStates.closed);
-              clearInterval(timer);
-            }.bind(this),
-            2000
-          );
+          setTimeout(function() {
+            changeImgHeight();
+            controlClass(classStates.closed);
+            clearInterval(timer);
+          }, 2000);
         } else {
           // 立即將
           // 1. class 改為 closed
           // 2. 圖片高度下降
-          controlClass.call(this, classStates.closed);
-          changeImgHeight.call(this, closeHeight);
+          controlClass(classStates.closed);
+          changeImgHeight();
         }
       } else {
-        btn.text(btnOpts.closeText);
-        changeImgHeight.call(this, openHeight);
+        this.setState({ btnText: btnOpts.closeText });
+        btnText = btnOpts.closeText;
+        changeImgHeight();
         if (isTransition) {
-          controlClass.call(this, classStates.opening);
+          controlClass(classStates.opening);
           const timer = setInterval(whenTransition, 2000 / 30);
-          setTimeout(
-            function() {
-              controlClass.call(this, classStates.opened);
-              clearInterval(timer);
-            }.bind(this),
-            2000
-          );
+          setTimeout(function() {
+            controlClass(classStates.opened);
+            clearInterval(timer);
+          }, 2000);
         } else {
           console.log("~OPEN~");
-          controlClass.call(this, classStates.opened);
+          controlClass(classStates.opened);
         }
       }
     }
   };
 
-  changeImgHeight = function(height) {
-    this.$ele.find(".img").css("transform", height);
+  changeImgHeight = () => {
+    const { isClose } = this.state;
+    this.setState({ isClose: !isClose });
   };
 
-  controlClass = function(className) {
-    const classStates = this.options.class;
-    let allClassesArray = [];
-    for (let prop in classStates) allClassesArray.push(prop);
-    const allClasses = allClassesArray.join(" ");
-
-    this.$ele.removeClass(allClasses);
-    this.$ele.addClass(className);
+  controlClass = className => {
+    this.setState({ currentClass: className });
   };
+
+  componentDidMount() {
+    const { button: btnOpts, class: classStates, openAtStart } = this.state;
+    const { autoToggle, changeImgHeight } = this;
+
+    autoToggle();
+
+    if (openAtStart) {
+      this.setState({
+        btnText: btnOpts.closeText,
+        currentClass: classStates.opened
+      });
+    } else {
+      this.setState({
+        btnText: btnOpts.openText,
+        currentClass: classStates.closed
+      });
+      changeImgHeight();
+    }
+  }
 
   render() {
     return (
-      <div className="banner">
+      <div
+        className={`banner ${this.state.currentClass} ${this.state.transition &&
+          "transition"}`}
+      >
         <a className="wrap">
           <img
-            className="img"
+            className={`img ${this.state.isClose && "transform"}`}
             src="./1200x380.png"
             title="輸入廣告促銷說明文字"
             alt="輸入廣告促銷說明文字"
           />
         </a>
-        <div onClick={this.bannerAnima} className="btn">
-          收合
+        <div
+          onClick={this.bannerAnima}
+          className={`btn ${this.state.button.class}`}
+        >
+          {this.state.btnText}
         </div>
       </div>
     );

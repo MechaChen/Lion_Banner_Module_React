@@ -10,6 +10,11 @@ body {
   overflow: hidden;
   position: relative;
   text-align: center;
+  img {
+    &.transform {
+      transform: translateY(-300px);
+    }
+  }
   .btn {
     position: absolute;
     right: 0;
@@ -47,5 +52,8 @@ body {
         border-color: #fff transparent transparent;
       }
     }
+  }
+  &.transition {
+    transition: 2s;
   }
 }

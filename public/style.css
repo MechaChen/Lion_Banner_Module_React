@@ -12,6 +12,11 @@ body {
   text-align: center;
 }
 
+.banner img.transform {
+  -webkit-transform: translateY(-300px);
+          transform: translateY(-300px);
+}
+
 .banner .btn {
   position: absolute;
   right: 0;
@@ -54,5 +59,10 @@ body {
 .banner.closed .btn::after, .banner.closing .btn::after {
   border-width: 3px 3px 0;
   border-color: #fff transparent transparent;
+}
+
+.banner.transition {
+  -webkit-transition: 2s;
+  transition: 2s;
 }
 /*# sourceMappingURL=style.css.map */
