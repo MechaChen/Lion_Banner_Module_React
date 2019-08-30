@@ -2,28 +2,10 @@ import React from "react";
 
 class Banner extends React.Component {
   state = {
-    openAtStart: false,
-    autoToggle: false,
-    button: {
-      closeText: "收合",
-      openText: "展開",
-      class: "btn"
-    },
     btnText: "收合",
-    class: {
-      closed: "closed",
-      closing: "closing",
-      opened: "opened",
-      opening: "opening"
-    },
-    currentClass: "closed",
-    isClose: false,
-    transition: true,
-    whenTransition: function() {
-      console.log("whenTransition");
-    }
+    currentClass: this.props.currentClass,
+    isClose: false
   };
-
   autoToggle = () => {
     const { autoToggle } = this.props.reqs;
     const { bannerAnima } = this;
@@ -32,7 +14,6 @@ class Banner extends React.Component {
       else setInterval(bannerAnima, 3000);
     }
   };
-
   bannerAnima = () => {
     const {
       button: btnOpts,
@@ -129,12 +110,13 @@ class Banner extends React.Component {
   }
 
   render() {
-    const { currentClass, isClose, btnText } = this.state;
+    const { isClose, btnText } = this.state;
     const { transition } = this.props.reqs;
+    const { currentClass } = this.state;
     const { bannerAnima } = this;
     return (
       <div className={`banner ${currentClass} ${transition && "transition"}`}>
-        <a className="wrap">
+        <a className="wrap" href="ignoreit:">
           <img
             className={`img ${isClose && "transform"}`}
             src="./1200x380.png"
