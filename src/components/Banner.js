@@ -93,6 +93,10 @@ class Banner extends React.Component {
     } = this.props.reqs;
     const { autoToggle, changeImgHeight } = this;
 
+    window.banner = {
+      toggle: this.bannerAnima
+    };
+
     autoToggle();
 
     if (openAtStart) {
@@ -107,6 +111,21 @@ class Banner extends React.Component {
       });
       changeImgHeight();
     }
+  }
+
+  componentDidUpdate() {
+    const { currentClass } = this.state;
+    const { bannerAnima } = this;
+    window.banner.open = () => {
+      if (currentClass === "closed") {
+        bannerAnima();
+      }
+    };
+    window.banner.close = () => {
+      if (currentClass === "opened") {
+        bannerAnima();
+      }
+    };
   }
 
   render() {
