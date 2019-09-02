@@ -3,34 +3,9 @@ import Banner from "./components/Banner";
 import "./App.css";
 
 class App extends React.Component {
-  state = {
-    currentClass: "closed"
-  };
-  open = () => {
-    console.log("open");
-    this.setState({
-      currentClass: "opened"
-    });
-  };
-  close = () => {
-    this.setState({
-      currentClass: "closed"
-    });
-  };
-  toggle = () => {
-    const { currentClass } = this.state;
-    if (currentClass === "closed") {
-      this.setState({
-        currentClass: "opened"
-      });
-    } else if (currentClass === "opened") {
-      this.setState({
-        currentClass: "closed"
-      });
-    }
-  };
-  render() {
-    const reqs = {
+  constructor(props) {
+    super(props);
+    this.state = {
       openAtStart: false,
       autoToggle: false,
       button: {
@@ -38,7 +13,7 @@ class App extends React.Component {
         openText: "展開",
         class: "btn"
       },
-      class: {
+      className: {
         closed: "closed",
         closing: "closing",
         opened: "opened",
@@ -49,9 +24,26 @@ class App extends React.Component {
         console.log("whenTransition");
       }
     };
+  }
+  render() {
+    const {
+      openAtStart,
+      autoToggle,
+      button,
+      className,
+      transition,
+      whenTransition
+    } = this.state;
     return (
       <React.Fragment>
-        <Banner reqs={reqs} currentClass={this.state.currentClass} />
+        <Banner
+          openAtStart={openAtStart}
+          autoToggle={autoToggle}
+          button={button}
+          className={className}
+          transition={transition}
+          whenTransition={whenTransition}
+        />
       </React.Fragment>
     );
   }

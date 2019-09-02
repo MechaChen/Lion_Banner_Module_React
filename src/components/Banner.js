@@ -3,11 +3,11 @@ import React from "react";
 class Banner extends React.Component {
   state = {
     btnText: "收合",
-    currentClass: this.props.currentClass,
+    currentClass: "closed",
     isClose: false
   };
   autoToggle = () => {
-    const { autoToggle } = this.props.reqs;
+    const { autoToggle } = this.props;
     const { bannerAnima } = this;
     if (autoToggle) {
       if (typeof autoToggle == "number") setInterval(bannerAnima, autoToggle);
@@ -20,7 +20,7 @@ class Banner extends React.Component {
       transition: isTransition,
       class: classStates,
       whenTransition
-    } = this.props.reqs;
+    } = this.props;
     const { currentClass } = this.state;
     let { btnText } = this.state;
     const { controlClass, changeImgHeight } = this;
@@ -86,11 +86,7 @@ class Banner extends React.Component {
   };
 
   componentDidMount() {
-    const {
-      button: btnOpts,
-      class: classStates,
-      openAtStart
-    } = this.props.reqs;
+    const { button: btnOpts, class: classStates, openAtStart } = this.props;
     const { autoToggle, changeImgHeight } = this;
 
     window.banner = {
@@ -130,7 +126,7 @@ class Banner extends React.Component {
 
   render() {
     const { isClose, btnText } = this.state;
-    const { transition } = this.props.reqs;
+    const { transition } = this.props;
     const { currentClass } = this.state;
     const { bannerAnima } = this;
     return (
@@ -143,12 +139,32 @@ class Banner extends React.Component {
             alt="輸入廣告促銷說明文字"
           />
         </a>
-        <div onClick={bannerAnima} className={`btn ${this.props.reqs.class}`}>
+        <div onClick={bannerAnima} className={`btn ${this.props.class}`}>
           {btnText}
         </div>
       </div>
     );
   }
 }
+
+Banner.defaultProps = {
+  openAtStart: true,
+  autoToggle: false,
+  button: {
+    closeText: "收合",
+    openText: "展開",
+    class: "btn"
+  },
+  class: {
+    closed: "closed",
+    closing: "closing",
+    opened: "opened",
+    opening: "opening"
+  },
+  transition: true,
+  whenTransition() {
+    console.log("whenTransition");
+  }
+};
 
 export default Banner;
