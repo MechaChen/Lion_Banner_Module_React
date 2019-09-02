@@ -89,10 +89,6 @@ class Banner extends React.Component {
     const { button: btnOpts, class: classStates, openAtStart } = this.props;
     const { autoToggle, changeImgHeight } = this;
 
-    window.banner = {
-      toggle: this.bannerAnima
-    };
-
     autoToggle();
 
     if (openAtStart) {
@@ -112,6 +108,9 @@ class Banner extends React.Component {
   componentDidUpdate() {
     const { currentClass } = this.state;
     const { bannerAnima } = this;
+    window.banner = {
+      toggle: this.bannerAnima
+    };
     window.banner.open = () => {
       if (currentClass === "closed") {
         bannerAnima();
