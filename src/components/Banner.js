@@ -149,7 +149,7 @@ class Banner extends React.Component {
 
 Banner.defaultProps = {
   openAtStart: true,
-  autoToggle: false,
+  autoToggle: true,
   button: {
     closeText: "收合",
     openText: "展開",

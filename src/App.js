@@ -9,9 +9,9 @@ class App extends React.Component {
       openAtStart: false,
       autoToggle: false,
       button: {
-        closeText: "收合",
-        openText: "展開",
-        class: "btn"
+        closeText: "OPEN",
+        openText: "CLOSE",
+        class: "BTN"
       },
       className: {
         closed: "closed",
@@ -21,7 +21,7 @@ class App extends React.Component {
       },
       transition: true,
       whenTransition() {
-        console.log("whenTransition");
+        console.log("Don't bother me, I am transitioning.");
       }
     };
   }
