@@ -1,20 +1,27 @@
 import React from "react";
 
 class Banner extends React.Component {
-  state = {
-    btnText: "收合",
-    currentClass: "closed",
-    isClose: false
-  };
-  autoToggle = () => {
+  constructor(props) {
+    super(props);
+    this.autoToggle = this.autoToggle.bind(this);
+    this.bannerAnima = this.bannerAnima.bind(this);
+    this.changeImgHeight = this.changeImgHeight.bind(this);
+    this.controlClass = this.controlClass.bind(this);
+    this.state = {
+      btnText: "收合",
+      currentClass: "closed",
+      isClose: false
+    };
+  }
+  autoToggle() {
     const { autoToggle } = this.props;
     const { bannerAnima } = this;
     if (autoToggle) {
       if (typeof autoToggle == "number") setInterval(bannerAnima, autoToggle);
       else setInterval(bannerAnima, 3000);
     }
-  };
-  bannerAnima = () => {
+  }
+  bannerAnima() {
     const {
       button: btnOpts,
       transition: isTransition,
@@ -74,16 +81,16 @@ class Banner extends React.Component {
         }
       }
     }
-  };
+  }
 
-  changeImgHeight = () => {
+  changeImgHeight() {
     const { isClose } = this.state;
     this.setState({ isClose: !isClose });
-  };
+  }
 
-  controlClass = className => {
+  controlClass(className) {
     this.setState({ currentClass: className });
-  };
+  }
 
   componentDidMount() {
     const { button: btnOpts, class: classStates, openAtStart } = this.props;
