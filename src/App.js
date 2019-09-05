@@ -7,7 +7,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       openAtStart: false,
-      autoToggle: false,
+      autoToggle: true,
       button: {
         closeText: "OPEN",
         openText: "CLOSE",

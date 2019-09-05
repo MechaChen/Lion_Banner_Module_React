@@ -18,7 +18,10 @@ class Banner extends React.Component {
     const { bannerAnima } = this;
     if (autoToggle) {
       if (typeof autoToggle == "number") setInterval(bannerAnima, autoToggle);
-      else setInterval(bannerAnima, 3000);
+      else {
+        const timer = setInterval(bannerAnima, 3000);
+        setTimeout(() => clearInterval(timer), 3000);
+      }
     }
   }
   bannerAnima() {
